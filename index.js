@@ -1,9 +1,16 @@
 const express = require("express");
 
 const app = express();
+var morgan = require("morgan");
 
 app.use(express.json());
-const PORT = 5000;
+morgan.token("body", (req, res) => JSON.stringify(req.body));
+app.use(
+  morgan(
+    ":method :url :status :req[content-length] - :response-time ms - :res[content-length] :body"
+  )
+);
+const PORT = process.env.PORT || 3001;
 
 const contacts = [
   {
@@ -29,14 +36,15 @@ const contacts = [
 ];
 
 const generateId = () => {
-  const maxId = notes.length > 0 ? Math.max(...contacts.map((n) => n.id)) : 0;
-  return maxId + 1;
+  return Math.floor(Math.random() * (1000 - 8 + 1) + 8);
 };
 
 // get all contacts
-app.get("/api/contacts", (request, response) =>
-  response.status(200).json(contacts)
-);
+app.get("/api/contacts", (request, response) => {
+  response.status(200).json(contacts);
+
+  return;
+});
 
 // get contact by ID
 app.get("/api/contact/:id", (request, response) => {
@@ -83,7 +91,7 @@ app.post("/api/contact", (request, response) => {
     response.status(400).json({ error: "name must be unique" });
     return;
   }
-  const newContacts = contacts.concat(newContact);
+  const newContacts = contacts.concat({ id: generateId(), ...newContact });
 
   response.status(200).json(newContacts);
 });

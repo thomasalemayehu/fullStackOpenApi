@@ -2,7 +2,7 @@ DELETE http://localhost:5000/api/contact/2
 
 
 ###
-GET http://localhost:5000/api/contact/2
+GET http://localhost:5000/api/contacts
 
 
 ###
@@ -13,3 +13,7 @@ Content-Type: application/json
     "name": "",
     "number": "12-43-234345"
 }
+
+
+###
+OPTIONS http://localhost:5000/api/contact/1
