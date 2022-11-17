@@ -1,15 +1,26 @@
 const express = require("express");
 
 const app = express();
-var morgan = require("morgan");
+const cors = require("cors");
+const morgan = require("morgan");
 
 app.use(express.json());
 morgan.token("body", (req, res) => JSON.stringify(req.body));
+// app.use(
+//   morgan(
+//     ":method :url :status :req[content-length] - :response-time ms - :res[content-length] :body"
+//   )
+// );
+
 app.use(
-  morgan(
-    ":method :url :status :req[content-length] - :response-time ms - :res[content-length] :body"
-  )
+  cors({
+    origin: "http://localhost:3000",
+  })
 );
+
+app.use(express.static("build"));
+
+
 const PORT = process.env.PORT || 3001;
 
 const contacts = [
@@ -85,10 +96,11 @@ app.post("/api/contact", (request, response) => {
   }
 
   const isNameExists =
-    contacts.filter((contact) => contact.name == newContact.name).length > 0;
+    contacts.filter((contact) => contact.name === newContact.name).length > 0;
+
 
   if (isNameExists) {
-    response.status(400).json({ error: "name must be unique" });
+    response.status(600).json({ error: "name must be unique" });
     return;
   }
   const newContacts = contacts.concat({ id: generateId(), ...newContact });
