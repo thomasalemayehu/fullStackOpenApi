@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 
 const URL =
   // eslint-disable-next-line no-undef
-  process.env.URI ||
-  "mongodb+srv://efpl:zWZ5XSHdZ0ELDuOA@cluster0.4n1tggk.mongodb.net/contacts?retryWrites=true&w=majority";
+  process.env.MONGO_URI;
 
 const contactSchema = mongoose.Schema({
   name: {
