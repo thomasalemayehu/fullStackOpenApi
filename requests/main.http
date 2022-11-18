@@ -10,10 +10,20 @@ POST http://localhost:5000/api/contact
 Content-Type: application/json
 
 {
-    "name": "",
-    "number": "12-43-234345"
-}
+    "name":"John Doe",
+    "number": "123-456-7890"
+}44
 
 
 ###
 OPTIONS http://localhost:5000/api/contact/1
+
+
+###
+PUT http://localhost:5000/api/contact/6377b6a2d0a10133dc2f9397
+Content-Type: application/json
+
+{
+    "name":"John Doe",
+    "number": "123-456-7890"
+}
